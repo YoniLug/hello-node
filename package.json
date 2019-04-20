@@ -1,0 +1,31 @@
+{
+  "name": "hello-node",
+  "version": "1.0.0",
+  "description": "simple hello world application",
+  "main": "app.js",
+  "scripts": {
+    "start-server": "npm start",
+    "start": "node app/app.js",
+    "test": "./node_modules/.bin/mocha",
+    "ci": "start-server-and-test start-server http://localhost:8080 test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YoniLug/hello-node.git"
+  },
+  "author": "Yonatan Lugassi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YoniLug/hello-node/issues"
+  },
+  "homepage": "https://github.com/YoniLug/hello-node#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "request": "^2.88.0",
+    "start-server-and-test": "^1.7.13"
+  }
+}
