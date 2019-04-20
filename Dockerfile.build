@@ -1,0 +1,14 @@
+FROM node:10.15.3-alpine
+
+#Install build prerequisites
+RUN apk update && \
+    apk add --no-cache \
+    wget \
+    bash \
+    git \
+    openssh-client \
+    ca-certificates \
+    unzip \
+    && rm -rf /var/cache/apk/*
+  
+RUN mkdir ~/.ssh && touch ~/.ssh/known_hosts
