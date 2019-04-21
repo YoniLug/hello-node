@@ -9,6 +9,7 @@ RUN apk update && \
     openssh-client \
     ca-certificates \
     unzip \
+    docker \
     && rm -rf /var/cache/apk/*
   
 RUN mkdir ~/.ssh && touch ~/.ssh/known_hosts
