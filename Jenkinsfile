@@ -2,7 +2,7 @@
 
 def buildVersion = -1
 def gitCommit = ''
-def clLib = null
+def lib = null
 def npmMgr = null
 
 pipeline {
@@ -22,13 +22,31 @@ pipeline {
         timestamps() 
     }
 
+    environment {
+        MajorMinorVersion = "1.0"
+        REPO_NAME = "hello-node"
+    }
+    
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: '', description: '')
+        string(name: 'LIB_BRANCH_NAME',defaultValue: '', description: '')
+    }
     
     stages {
-
-        stage("Install npm modules") {
+        stage("Set Build Version ") {
             steps {
                 script {
-                    sh "npm install"
+                    lib = library("jenkins.pipeline@${params.LIB_BRANCH_NAME}").com.yona.pipeline
+                    env.BUILD_VERSION = "${env.MajorMinorVersion}.${env.BUILD_NUMBER}"
+                    npmMgr = lib.NpmMgr.new(this, this.steps,env.BUILD_VERSION)
+                    npmMgr.setBuildVersion()
+                }
+            }
+        }
+        stage("Install npm modules") {
+            steps { 
+                script {
+                    npmMgr.npmInstall()
                 }
             }
         }
@@ -36,7 +54,7 @@ pipeline {
         stage("Run npm build") {
             steps {
                 script {
-                    sh "npm run build"   
+                    npmMgr.npmBuild()   
                 }
             }
         }
@@ -44,19 +62,18 @@ pipeline {
         stage("Run npm test") {
             steps {
                 script {
-                    sh "npm run test-web-app"   
+                    npmMgr.npmTest()  
                 }
             }
         }
 
-        /*stage("Run npm Test") {
+        stage("build docker image") {
             steps {
                 script {
-                    npmMgr.npmTest()
+                    def customImage = docker.build("my-image:${env.BUILD_VERSION}")
+                    //customImage.push()
                 }
             }
-        }*/
-
-        
+        }
     }
 }
