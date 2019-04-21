@@ -4,6 +4,7 @@ def buildVersion = -1
 def gitCommit = ''
 def lib = null
 def npmMgr = null
+def imageName = null
 
 pipeline {
     /*
@@ -25,6 +26,7 @@ pipeline {
     environment {
         MajorMinorVersion = "1.0"
         REPO_NAME = "hello-node"
+        SERVICE_NAME = "hello-node" 
     }
     
     parameters {
@@ -70,7 +72,17 @@ pipeline {
         stage("build docker image") {
             steps {
                 script {
+                    imageName = "${env.SERVICE_NAME}:${env.BUILD_VERSION}"
                     def customImage = docker.build("my-image:${env.BUILD_VERSION}")
+                    //customImage.push()
+                }
+            }
+        }
+        
+        stage("Run Docker image") {
+            steps {
+                script {
+                    docker.image(imageName).withRun('-d -p 8090:8080')
                     //customImage.push()
                 }
             }
