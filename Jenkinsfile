@@ -13,7 +13,7 @@ pipeline {
         dockerfile { 
             filename "Dockerfile.build"
             args "-v /var/run/docker.sock:/var/run/docker.sock"
-            label "node-10.15.3"
+            label "master"
         }
     }
     
@@ -36,7 +36,15 @@ pipeline {
         stage("Run npm build") {
             steps {
                 script {
-                    sh "npm run ci"   
+                    sh "npm run build"   
+                }
+            }
+        }
+        
+        stage("Run npm test") {
+            steps {
+                script {
+                    sh "npm run test-web-app"   
                 }
             }
         }
