@@ -73,7 +73,7 @@ pipeline {
             steps {
                 script {
                     imageName = "${env.SERVICE_NAME}:${env.BUILD_VERSION}"
-                    def customImage = docker.build("my-image:${env.BUILD_VERSION}")
+                    def customImage = docker.build(imageName)
                     //customImage.push()
                 }
             }
