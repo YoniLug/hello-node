@@ -1,7 +1,5 @@
 #!groovy
 
-def buildVersion = -1
-def gitCommit = ''
 def lib = null
 def npmMgr = null
 def imageName = null
