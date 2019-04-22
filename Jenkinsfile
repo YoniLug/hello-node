@@ -29,7 +29,7 @@ pipeline {
     
     parameters {
         string(name: 'BRANCH_NAME', defaultValue: 'master', description: '')
-        string(name: 'LIB_BRANCH_NAME',defaultValue: 'maste', description: '')
+        string(name: 'LIB_BRANCH_NAME',defaultValue: 'master', description: '')
     }
     
     stages {
