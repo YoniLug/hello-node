@@ -79,11 +79,11 @@ pipeline {
             }
         }
         
-        stage("Run Docker image") {
+        stage("Deploy Docker image") {
             steps {
                 script {
-                    docker.image(imageName).withRun('-d -p 8090:8080')
-                    //customImage.push()
+                    sh(returnStatus: true, script:"docker ps | grep ${env.SERVICE_NAME} | awk \'{print \$1}\' | xargs docker stop")
+                    sh "docker run -d -p 8090:8080 --rm ${env.SERVICE_NAME}:${env.BUILD_VERSION}"
                 }
             }
         }
