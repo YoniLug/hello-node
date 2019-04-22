@@ -6,7 +6,7 @@ def imageName = null
 
 pipeline {
     /*
-    *Set the slave to be the docker image that build in node step . 
+    *Set the slave to be the docker image from Dockerfile.build. 
     */
     agent {
         dockerfile { 
